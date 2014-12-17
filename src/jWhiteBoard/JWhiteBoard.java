@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -36,15 +37,15 @@ ChannelListener {
 	private JFrame mainFrame = null;
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
-	private JButton clearButton, leaveButton, brushcolor, background, sizeS,
-			sizeT, title;
+	private JButton clearButton, leaveButton,  background, sizeS,
+			sizeT, title, brushColorButton;
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private JTextField txtgroup;
 	private Color drawColor = selectColor();
 	// private final Color drawColor=Color.black;
 	private static Color backgroundColor = Color.WHITE;
-	private static final Streamable comm = null;
+	private static final Streamable comm = null;	
 	boolean noChannel = false;
 	boolean jmx;
 	private boolean useState = false;
@@ -297,6 +298,10 @@ public void go() throws Exception {
 	clearButton = new JButton("Clear");// set to Clear not to Clean
 	clearButton.setFont(defaultFont);
 	clearButton.addActionListener(this);
+	//button brushColorButton
+	brushColorButton = new JButton("Brush");
+	brushColorButton.setFont(defaultFont);
+	brushColorButton.addActionListener(this);
 	// background color
 	background = new JButton("Display");
 	background.setFont(defaultFont);
@@ -315,23 +320,8 @@ public void go() throws Exception {
 			}
 		}
 	});
-	// Brush Color
-	brushcolor = new JButton("Brush Color");
-	brushcolor.setFont(defaultFont);
-	brushcolor.setForeground(Color.blue);
-	brushcolor.addActionListener(new ActionListener() {
-
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			Color b = JColorChooser.showDialog(null, "Pick your color",
-					drawColor);
-			if (b != null) {
-				drawColor = b;
-
-			}
-
-		}
-	});
+	
+	
 	// set change name button
 	leaveButton = new JButton("Leave");// set to Leave not to Exit
 	leaveButton.setFont(defaultFont);
@@ -362,7 +352,8 @@ public void go() throws Exception {
 
 	subPanel.add("South", clearButton);
 	subPanel.add("South", leaveButton);
-	subPanel.add("South", brushcolor);
+	subPanel.add("South", brushColorButton);
+
 	subPanel.add("South", title);
 	subPanel.add("South", txtgroup);
 	txtgroup.setSize(20, 40);
@@ -374,6 +365,7 @@ public void go() throws Exception {
 	mainFrame.setBackground(backgroundColor);
 	clearButton.setForeground(Color.blue);
 	leaveButton.setForeground(Color.blue);
+	brushColorButton.setForeground(Color.blue);
 	mainFrame.pack();
 	mainFrame.setLocation(15, 25);
 	mainFrame.setBounds(new Rectangle(500, 400));
@@ -543,6 +535,13 @@ public void actionPerformed(ActionEvent e) {
 		sendClearPanelMsg();
 	} else if ("Leave".equals(command)) {
 		stop();
+	}else if (e.getSource() == brushColorButton){
+		Color a = JColorChooser.showDialog(null, "Pick your color",
+				drawColor);
+		if (a != null) {
+			drawColor = a;
+			drawPanel.setBackground(drawColor);
+		}
 	} else if (e.getSource() == sizeS) {
 		brushSize++;
 
@@ -551,6 +550,12 @@ public void actionPerformed(ActionEvent e) {
 	}
 	System.out.println("Unknown action");
 }
+
+private void functionBrushColor() {
+	// TODO Auto-generated method stub
+	
+}
+
 
 /**
  * Leave Group and close JWhiteBoard
@@ -799,6 +804,7 @@ protected class DrawPanel extends JPanel implements MouseMotionListener {
 			}
 		}
 	}
+	
 
 	/**
 	 * Clear all contents
@@ -846,5 +852,7 @@ protected class DrawPanel extends JPanel implements MouseMotionListener {
 	}
 
 }
-
 }
+
+
+
