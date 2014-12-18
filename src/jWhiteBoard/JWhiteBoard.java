@@ -299,9 +299,9 @@ public void go() throws Exception {
 	clearButton.setFont(defaultFont);
 	clearButton.addActionListener(this);
 	//button brushColorButton
-	brushColorButton = new JButton("Brush");
-	brushColorButton.setFont(defaultFont);
-	brushColorButton.addActionListener(this);
+		brushColorButton = new JButton("Brush");
+		brushColorButton.setFont(defaultFont);
+		brushColorButton.addActionListener(this);
 	// background color
 	background = new JButton("Display");
 	background.setFont(defaultFont);
@@ -349,10 +349,10 @@ public void go() throws Exception {
 	sizeT = new JButton("-");// set to Leave not to Exit
 	sizeT.setFont(defaultFont);
 	sizeT.addActionListener(this);
-
+	subPanel.add("South", brushColorButton);
 	subPanel.add("South", clearButton);
 	subPanel.add("South", leaveButton);
-	subPanel.add("South", brushColorButton);
+	
 
 	subPanel.add("South", title);
 	subPanel.add("South", txtgroup);
@@ -362,10 +362,11 @@ public void go() throws Exception {
 
 	subPanel.add("South", background);
 	mainFrame.getContentPane().add("South", subPanel);
+	brushColorButton.setForeground(Color.blue);
 	mainFrame.setBackground(backgroundColor);
 	clearButton.setForeground(Color.blue);
 	leaveButton.setForeground(Color.blue);
-	brushColorButton.setForeground(Color.blue);
+	
 	mainFrame.pack();
 	mainFrame.setLocation(15, 25);
 	mainFrame.setBounds(new Rectangle(500, 400));
@@ -541,7 +542,7 @@ public void actionPerformed(ActionEvent e) {
 		if (a != null) {
 			drawColor = a;
 			drawPanel.setBackground(drawColor);
-		}
+		}    
 	} else if (e.getSource() == sizeS) {
 		brushSize++;
 
