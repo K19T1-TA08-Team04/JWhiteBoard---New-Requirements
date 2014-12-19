@@ -38,7 +38,10 @@ ChannelListener {
 	private JPanel subPanel = null;
 	private DrawPanel drawPanel = null;
 	private JButton clearButton, leaveButton,  background, sizeS,
-			sizeT, title, brushColorButton;
+			sizeT, title, brushColorButton, sendMsg;
+	private JTextField txtGroup, txtMsg;
+	private JTextArea area = new JTextArea("\n");
+	private JScrollPane scoll = new JScrollPane(area);
 	private final Random random = new Random(System.currentTimeMillis());
 	private final Font defaultFont = new Font("Helvetica", Font.PLAIN, 12);
 	private JTextField txtgroup;
@@ -298,10 +301,18 @@ public void go() throws Exception {
 	clearButton = new JButton("Clear");// set to Clear not to Clean
 	clearButton.setFont(defaultFont);
 	clearButton.addActionListener(this);
+	// Add button sendMsg
+			sendMsg = new JButton("SendMsg");
+		sendMsg.setFont(defaultFont);
+			sendMsg.setForeground(Color.RED);
+			sendMsg.addActionListener(this);
 	//button brushColorButton
 		brushColorButton = new JButton("Brush");
 		brushColorButton.setFont(defaultFont);
 		brushColorButton.addActionListener(this);
+		// Set txtGroup
+		 		txtGroup = new JTextField("", 5);
+				txtMsg = new JTextField("", 10);
 	// background color
 	background = new JButton("Display");
 	background.setFont(defaultFont);
@@ -366,7 +377,8 @@ public void go() throws Exception {
 	mainFrame.setBackground(backgroundColor);
 	clearButton.setForeground(Color.blue);
 	leaveButton.setForeground(Color.blue);
-	
+	mainFrame.getContentPane().add("East", scoll);
+			area.setEditable(false);
 	mainFrame.pack();
 	mainFrame.setLocation(15, 25);
 	mainFrame.setBounds(new Rectangle(500, 400));
@@ -429,6 +441,12 @@ public void receive(Message msg) {
 			break;
 		case DrawCommand.CLEAR:
 			clearPanel();
+			break;
+						case DrawCommand.TEXT:
+							String receivedTextMessage = comm.textMessage;
+						area.append(receivedTextMessage + "\n");
+							break;
+
 		default:
 			System.err.println("***** received invalid draw command "
 					+ comm.mode);
@@ -510,7 +528,7 @@ public void clearPanel() {
 /**
  * Send Clear command to all members in Group
  */
-public void sendClearPanelMsg() {
+public void rPanelMsg() {
 	DrawCommand comm = new DrawCommand(DrawCommand.CLEAR);
 	try {
 		byte[] buf = Util.streamableToByteBuffer(comm);
@@ -533,9 +551,11 @@ public void actionPerformed(ActionEvent e) {
 			clearPanel();
 			return;
 		}
-		sendClearPanelMsg();
+		rPanelMsg();
 	} else if ("Leave".equals(command)) {
 		stop();
+	} else if (e.getSource() == sendMsg) {
+					sendMsg(txtMsg.getText());
 	}else if (e.getSource() == brushColorButton){
 		Color a = JColorChooser.showDialog(null, "Pick your color",
 				drawColor);
@@ -551,6 +571,18 @@ public void actionPerformed(ActionEvent e) {
 	}
 	System.out.println("Unknown action");
 }
+
+private void sendMsg(String text) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+private void txtMSg(String text) {
+	// TODO Auto-generated method stub
+	
+}
+
 
 private void functionBrushColor() {
 	// TODO Auto-generated method stub

@@ -14,7 +14,7 @@ import java.io.DataOutput;
 public class DrawCommand implements Streamable {
     static final byte DRAW=1;
     static final byte CLEAR=2;
-    static final byte TEXT=2;
+    static final byte TEXT=3;
     byte mode;
     int x;
     int y;
@@ -22,11 +22,16 @@ public class DrawCommand implements Streamable {
 	int brushSize;
 	String textMessage;
     
-    
-    
-
-    public DrawCommand() { // needed for streamable
-    }
+	 public String getTextMessage() {
+		 		return textMessage;
+		 	}
+		 
+		 	public void setTextMessage(String textMessage) {
+		 		this.textMessage = textMessage;
+		 	}
+		 
+		 	public DrawCommand() { // needed for streamable
+		      }
 
     DrawCommand(byte mode) {
         this.mode=mode;
