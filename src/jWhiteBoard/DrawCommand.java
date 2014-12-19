@@ -67,6 +67,7 @@ public class DrawCommand implements Streamable {
         out.writeChars(textMessage);
     }
 
+    
     public void readFrom(DataInput in) throws Exception {
         mode=in.readByte();
         x=in.readInt();

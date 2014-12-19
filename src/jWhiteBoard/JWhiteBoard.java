@@ -302,6 +302,7 @@ public void go() throws Exception {
 	clearButton.setFont(defaultFont);
 	clearButton.addActionListener(this);
 	// Add button sendMsg
+	
 			sendMsg = new JButton("SendMsg");
 		sendMsg.setFont(defaultFont);
 			sendMsg.setForeground(Color.RED);
